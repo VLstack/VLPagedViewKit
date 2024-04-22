@@ -1,11 +1,9 @@
-// Source: https://gist.github.com/beader/08757070b8c8b1134ea8e53f347553d8
-
 import SwiftUI
 import UIKit
 
 public struct VLPagedView<S: VLPagedViewStep & Comparable, Content: View>: UIViewControllerRepresentable
 {
- typealias UIViewControllerType = UIPageViewController
+ public typealias UIViewControllerType = UIPageViewController
 
  @Binding var currentIndex: S
  private let content: (S) -> Content
@@ -26,12 +24,12 @@ public struct VLPagedView<S: VLPagedViewStep & Comparable, Content: View>: UIVie
   self.content = content
  }
 
- func makeCoordinator() -> Coordinator
+ public func makeCoordinator() -> Coordinator
  {
   Coordinator(self)
  }
 
- func makeUIViewController(context: Context) -> UIPageViewController
+ public func makeUIViewController(context: Context) -> UIPageViewController
  {
   let pageViewController = UIPageViewController(transitionStyle: transitionStyle,
                                                 navigationOrientation: navigationOrientation)
@@ -48,8 +46,8 @@ public struct VLPagedView<S: VLPagedViewStep & Comparable, Content: View>: UIVie
   return pageViewController
  }
 
- func updateUIViewController(_ uiViewController: UIPageViewController,
-                             context: Context)
+ public func updateUIViewController(_ uiViewController: UIPageViewController,
+                                    context: Context)
  {
   let currentViewController = uiViewController.viewControllers?.first as? UIHostingController<VLPagedView.IdentifiedContent<Content, S>>
   let rootCurrentIndex = currentViewController?.rootView.pageIndex ?? self.currentIndex
@@ -66,7 +64,7 @@ public struct VLPagedView<S: VLPagedViewStep & Comparable, Content: View>: UIVie
   }
  }
 
- class Coordinator: NSObject, UIPageViewControllerDataSource, UIPageViewControllerDelegate
+ public class Coordinator: NSObject, UIPageViewControllerDataSource, UIPageViewControllerDelegate
  {
   var parent: VLPagedView
 
@@ -75,8 +73,8 @@ public struct VLPagedView<S: VLPagedViewStep & Comparable, Content: View>: UIVie
    self.parent = parent
   }
 
-  func pageViewController(_ pageViewController: UIPageViewController,
-                          viewControllerBefore viewController: UIViewController) -> UIViewController?
+  public func pageViewController(_ pageViewController: UIPageViewController,
+                                 viewControllerBefore viewController: UIViewController) -> UIViewController?
   {
    guard let currentView = viewController as? UIHostingController<VLPagedView.IdentifiedContent<Content, S>>,
          let currentIndex = currentView.rootView.pageIndex as S?,
@@ -87,8 +85,8 @@ public struct VLPagedView<S: VLPagedViewStep & Comparable, Content: View>: UIVie
                                                                       content: { self.parent.content(previousIndex) }))
   }
 
-  func pageViewController(_ pageViewController: UIPageViewController,
-                          viewControllerAfter viewController: UIViewController) -> UIViewController?
+  public func pageViewController(_ pageViewController: UIPageViewController,
+                                 viewControllerAfter viewController: UIViewController) -> UIViewController?
   {
    guard let currentView = viewController as? UIHostingController<VLPagedView.IdentifiedContent<Content, S>>,
          let currentIndex = currentView.rootView.pageIndex as S?,
@@ -99,10 +97,10 @@ public struct VLPagedView<S: VLPagedViewStep & Comparable, Content: View>: UIVie
                                                                       content: { self.parent.content(nextIndex) }))
   }
 
-  func pageViewController(_ pageViewController: UIPageViewController,
-                          didFinishAnimating finished: Bool,
-                          previousViewControllers: [ UIViewController ],
-                          transitionCompleted completed: Bool)
+  public func pageViewController(_ pageViewController: UIPageViewController,
+                                 didFinishAnimating finished: Bool,
+                                 previousViewControllers: [ UIViewController ],
+                                 transitionCompleted completed: Bool)
   {
    if completed,
       let currentView = pageViewController.viewControllers?.first as? UIHostingController<VLPagedView.IdentifiedContent<Content, S>>,
