@@ -11,11 +11,11 @@ public struct VLPagedView<S: VLPagedViewStep & Comparable, Content: View>: UIVie
  private let transitionStyle: UIPageViewController.TransitionStyle
  private let navigationOrientation: UIPageViewController.NavigationOrientation
   
- init(current: Binding<S>,
-      stepComponent: (any Equatable)? = nil,
-      transition: UIPageViewController.TransitionStyle = .scroll,
-      orientation: UIPageViewController.NavigationOrientation = .horizontal,
-      @ViewBuilder content: @escaping (S) -> Content)
+ public init(current: Binding<S>,
+             stepComponent: (any Equatable)? = nil,
+             transition: UIPageViewController.TransitionStyle = .scroll,
+             orientation: UIPageViewController.NavigationOrientation = .horizontal,
+             @ViewBuilder content: @escaping (S) -> Content)
  {
   self._currentIndex = current
   self.stepComponent = stepComponent
