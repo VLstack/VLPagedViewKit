@@ -3,21 +3,16 @@
 
 import PackageDescription
 
-let package = Package(
-    name: "VLPagedViewKit",
-    products: [
-        // Products define the executables and libraries a package produces, making them visible to other packages.
-        .library(
-            name: "VLPagedViewKit",
-            targets: ["VLPagedViewKit"]),
-    ],
-    targets: [
-        // Targets are the basic building blocks of a package, defining a module or a test suite.
-        // Targets can depend on other targets in this package and products from dependencies.
-        .target(
-            name: "VLPagedViewKit"),
-        .testTarget(
-            name: "VLPagedViewKitTests",
-            dependencies: ["VLPagedViewKit"]),
-    ]
-)
+let package = Package(name: "VLPagedViewKit",
+                      platforms: [ .iOS(.v17) ],
+                      products:
+                      [
+                       .library(name: "VLPagedViewKit",
+                                targets: [ "VLPagedViewKit" ])
+                      ],
+                      targets:
+                      [
+                       .target(name: "VLPagedViewKit"),
+                       .testTarget(name: "VLPagedViewTestsKit",
+                                   dependencies: [ "VLPagedViewKit" ])
+                      ])
