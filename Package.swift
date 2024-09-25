@@ -68,9 +68,9 @@ for target in package.targets where target.type != .binary
  swiftSettings.append(.enableUpcomingFeature("DisableOutwardActorInference"))
  #endif
 
- #if !hasFeature(InternalImportsByDefault)
- swiftSettings.append(.enableUpcomingFeature("InternalImportsByDefault"))
- #endif
+// #if !hasFeature(InternalImportsByDefault)
+// swiftSettings.append(.enableUpcomingFeature("InternalImportsByDefault"))
+// #endif
  
  #if !hasFeature(IsolatedDefaultValues)
  swiftSettings.append(.enableUpcomingFeature("IsolatedDefaultValues"))
