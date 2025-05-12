@@ -4,11 +4,11 @@ extension VLPagedView
 {
  package struct IdentifiedContent<PagedContent: View, SteppableType: VLPagedViewStep>: View
  {
-  let pageIndex: SteppableType
-  let content: () -> PagedContent
+  package let pageIndex: SteppableType
+  package let content: () -> PagedContent
 
-  init(pageIndex: SteppableType,
-       @ViewBuilder content: @escaping () -> PagedContent)
+  package init(pageIndex: SteppableType,
+               @ViewBuilder content: @escaping () -> PagedContent)
   {
    self.pageIndex = pageIndex
    self.content = content

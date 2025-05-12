@@ -5,7 +5,7 @@ public struct VLPagedView<S: VLPagedViewStep & Comparable, Content: View>: UIVie
 {
  public typealias UIViewControllerType = UIPageViewController
 
- @Binding var currentIndex: S
+ @Binding public var currentIndex: S
  private let content: (S) -> Content
  private let stepComponent: (any Equatable)?
  private let transitionStyle: UIPageViewController.TransitionStyle
@@ -66,9 +66,9 @@ public struct VLPagedView<S: VLPagedViewStep & Comparable, Content: View>: UIVie
 
  public class Coordinator: NSObject, UIPageViewControllerDataSource, UIPageViewControllerDelegate
  {
-  var parent: VLPagedView
+  package var parent: VLPagedView
 
-  init(_ parent: VLPagedView)
+  public init(_ parent: VLPagedView)
   {
    self.parent = parent
   }
