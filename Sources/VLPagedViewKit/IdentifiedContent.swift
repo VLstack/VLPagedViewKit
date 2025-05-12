@@ -1,22 +1,22 @@
 import SwiftUI
 
-package extension VLPagedView
+extension VLPagedView
 {
- struct IdentifiedContent<PagedContent: View, SteppableType: VLPagedViewStep>: View
+ package struct IdentifiedContent<PagedContent: View, SteppableType: VLPagedViewStep>: View
  {
   let pageIndex: SteppableType
-  let content: PagedContent
+  let content: () -> PagedContent
 
   init(pageIndex: SteppableType,
        @ViewBuilder content: @escaping () -> PagedContent)
   {
    self.pageIndex = pageIndex
-   self.content = content()
+   self.content = content
   }
 
   package var body: some View
   {
-   content
+   content()
   }
  }
 }
