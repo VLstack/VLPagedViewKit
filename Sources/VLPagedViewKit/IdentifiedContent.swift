@@ -2,7 +2,7 @@ import SwiftUI
 
 extension VLPagedView
 {
- /// Wrapper view associant un contenu SwiftUI à un index de page.
+ /// A wrapper view that associates SwiftUI content with a page index.
  ///
  /// Used internally by `VLPagedView` to uniquely identify each page and provide
  /// the corresponding SwiftUI content.
