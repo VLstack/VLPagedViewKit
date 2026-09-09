@@ -81,6 +81,7 @@ public struct VLPagedView<S: VLPagedViewStep & Comparable, Content: View>: UIVie
                                                 navigationOrientation: navigationOrientation)
   pageViewController.dataSource = context.coordinator
   pageViewController.delegate = context.coordinator
+  context.coordinator.currentPage = currentIndex
 
   let initialViewController = UIHostingController(rootView: VLPagedView.IdentifiedContent(pageIndex: currentIndex,
                                                                                           content: { content(currentIndex) }))
@@ -102,18 +103,29 @@ public struct VLPagedView<S: VLPagedViewStep & Comparable, Content: View>: UIVie
  public func updateUIViewController(_ uiViewController: UIPageViewController,
                                     context: Context)
  {
-  let currentViewController = uiViewController.viewControllers?.first as? UIHostingController<VLPagedView.IdentifiedContent<Content, S>>
-  let rootCurrentIndex = currentViewController?.rootView.pageIndex ?? self.currentIndex
+  context.coordinator.parent = self
 
-  if currentIndex != rootCurrentIndex
+  guard let currentViewController = uiViewController.viewControllers?.first as? UIHostingController<VLPagedView.IdentifiedContent<Content, S>>
+  else { return }
+
+  let rootCurrentIndex = currentViewController.rootView.pageIndex
+
+  if currentIndex != context.coordinator.currentPage
   {
+   context.coordinator.currentPage = currentIndex
    let direction: UIPageViewController.NavigationDirection = currentIndex > rootCurrentIndex ? .forward : .reverse
    let newViewController = UIHostingController(rootView: VLPagedView.IdentifiedContent(pageIndex: currentIndex,
                                                                                        content: { content(currentIndex) }))
+   let isAnimated = context.transaction.animation != nil
    uiViewController.setViewControllers([ newViewController ],
                                        direction: direction,
-                                       animated: true,
+                                       animated: isAnimated,
                                        completion: nil)
+  }
+  else
+  {
+   currentViewController.rootView = VLPagedView.IdentifiedContent(pageIndex: rootCurrentIndex,
+                                                                  content: { content(rootCurrentIndex) })
   }
  }
 
@@ -126,10 +138,12 @@ public struct VLPagedView<S: VLPagedViewStep & Comparable, Content: View>: UIVie
   ///
   /// Used to access the `currentIndex`, `content`, and `stepComponent`.
   package var parent: VLPagedView
+  package var currentPage: S?
 
   public init(_ parent: VLPagedView)
   {
    self.parent = parent
+   self.currentPage = parent.currentIndex
   }
 
   /// Returns the view controller before the given one.
@@ -187,6 +201,7 @@ public struct VLPagedView<S: VLPagedViewStep & Comparable, Content: View>: UIVie
       let currentView = pageViewController.viewControllers?.first as? UIHostingController<VLPagedView.IdentifiedContent<Content, S>>,
       let currentIndex = currentView.rootView.pageIndex as S?
    {
+    currentPage = currentIndex
     parent.currentIndex = currentIndex
    }
   }
