@@ -1,12 +1,13 @@
 /// Represents a single step in a paged view sequence.
 /// Provides methods to navigate forward or backward in the sequence.
-public protocol VLPagedViewStep
+///
+/// The `Comparable` order of the type must follow the order of the pages:
+/// `VLPagedView` uses it to choose the direction of the page animation.
+public protocol VLPagedViewStep: Comparable
 {
  /// Returns the next step in the paged view sequence, or `nil` if none exists.
- /// - Parameter component: Optional component used to determine the next step.
- func pageForward(_ component: (any Equatable)?) -> Self?
+ func pageForward() -> Self?
 
  /// Returns the previous step in the paged view sequence, or `nil` if none exists.
- /// - Parameter component: Optional component used to determine the previous step.
- func pageBackward(_ component: (any Equatable)?) -> Self?
+ func pageBackward() -> Self?
 }

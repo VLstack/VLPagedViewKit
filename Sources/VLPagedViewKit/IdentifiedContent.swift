@@ -6,25 +6,23 @@ extension VLPagedView
  ///
  /// Used internally by `VLPagedView` to uniquely identify each page and provide
  /// the corresponding SwiftUI content.
- package struct IdentifiedContent<PagedContent: View, SteppableType: VLPagedViewStep>: View
+ package struct IdentifiedContent: View
  {
   /// The step/index associated with this page.
   ///
   /// Used internally to determine the current page and perform navigation.
-  package let pageIndex: SteppableType
+  package let pageIndex: S
 
-  /// Closure that generates the SwiftUI content for this page.
-  ///
-  /// Executed when the page is rendered in the UI.
-  package let content: () -> PagedContent
+  /// The SwiftUI content of this page.
+  package let content: Content
 
   /// Initializes a new `IdentifiedContent` instance.
   ///
   /// - Parameters:
   ///   - pageIndex: The step/index associated with the page.
-  ///   - content: A closure returning the SwiftUI content of the page.
-  package init(pageIndex: SteppableType,
-               @ViewBuilder content: @escaping () -> PagedContent)
+  ///   - content: The SwiftUI content of the page.
+  package init(pageIndex: S,
+               content: Content)
   {
    self.pageIndex = pageIndex
    self.content = content
@@ -32,7 +30,7 @@ extension VLPagedView
 
   package var body: some View
   {
-   content()
+   content
   }
  }
 }

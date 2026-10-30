@@ -12,5 +12,7 @@ let package = Package(name: "VLPagedViewKit",
                       ],
                       targets:
                       [
-                       .target(name: "VLPagedViewKit")
+                       .target(name: "VLPagedViewKit"),
+                       .testTarget(name: "VLPagedViewKitTests",
+                                   dependencies: [ "VLPagedViewKit" ])
                       ])
